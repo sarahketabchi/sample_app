@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
 
 		if user && user.authenticate(params[:session][:password])
 			# Sign in the user and redirect to the user's show page
+			# user sign_in method in sessions helper module
 			sign_in user
 			redirect_to user
 		else
@@ -17,5 +18,8 @@ class SessionsController < ApplicationController
 	end
 
 	def destroy
+		# sign_out is in sessions helper module
+		sign_out
+		redirect_to root_url
 	end
 end
