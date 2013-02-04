@@ -11,6 +11,9 @@ class UsersController < ApplicationController
   	@user = User.new(params[:user])
 
   	if @user.save
+      # sign in automatically when a user signs up
+      sign_in @user
+      
   		flash[:success] = "Welcome to the Sample App!"
   		redirect_to @user
   	else
