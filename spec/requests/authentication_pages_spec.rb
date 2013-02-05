@@ -29,12 +29,6 @@ describe "Authentication" do
 		describe "with valid information" do
 			let(:user) { FactoryGirl.create(:user) }
 
-			# before do
-			# 	fill_in "Email", 		with: user.email
-			# 	fill_in "Password", with: user.password
-			# 	click_button "Sign in"
-			# end
-
 			# use test helper method to sign in users
 			# sign_in found in spec/support/utilities.rb
 			before { sign_in user }
@@ -103,6 +97,18 @@ describe "Authentication" do
 
 			describe "submitting a PUT request to the Users#update action" do
 				before { put user_path(wrong_user) }
+				specify { response.should redirect_to(root_path) }
+			end
+		end
+
+		describe "as non-admin user" do
+			let(:user) { FactoryGirl.create(:user) }
+			let(:non_admin) { FactoryGirl.create(:user) }
+
+			before { sign_in non_admin }
+
+			describe "submitting a DELETE request to the Users#destroy action" do
+				before { delete user_path(user) }
 				specify { response.should redirect_to(root_path) }
 			end
 		end
